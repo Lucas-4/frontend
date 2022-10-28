@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .upvoted {
+            color: rgb(228, 65, 24);
+        }
+
+        .downvoted {
+            color: rgb(49, 156, 214);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="vote">
+        <p class="upvote">up</p>
+        <p class="vote_num">58</p>
+        <p class="downvote">downn</p>
+    </div>
+
+    <div class="vote">
+        <p class="upvote">up</p>
+        <p class="vote_num">58</p>
+        <p class="downvote">downn</p>
+    </div>
+
+    <div class="vote">
+        <p class="upvote">up</p>
+        <p class="vote_num">58</p>
+        <p class="downvote">downn</p>
+    </div>
+</body>
+<script type="module">
+    import host from '../js/host.js';
+
+    const upvoteBtns = document.querySelectorAll('.upvote');
+
+    for (let upvoteBtn of upvoteBtns) {
+        upvoteBtn.addEventListener('click', async (e) => {
+            //if downvote button is selected when trying to upvote, remove selection
+            e.target.parentElement.querySelector('.downvote').classList.remove('downvoted');
+
+            //select upvote button
+            e.target.classList.toggle('upvoted')
+
+            if(e.target.classList.contains('upvoted')){
+                //fetch upvote post
+                const body = {
+                    vote_value: 1,
+                    user_id: 38, 
+                    post_id: 15
+                }
+                console.log('upvote')
+                fetch(host + '/votes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                }).then(res => res.json()).then(data => console.log(data));
+            } else{
+                //fetch delete upvote
+                console.log('remove vote');
+                const body = {
+                    user_id: 38,
+                    post_id: 15
+                }
+                fetch(host + '/votes', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                }).then(res => res.json()).then(data => console.log(data));
+            }            
+        })
+    }
+
+    const downvoteBtns = document.querySelectorAll('.downvote');
+
+    for (let downvoteBtn of downvoteBtns) {
+        downvoteBtn.addEventListener('click', (e) => {
+            //
+            e.target.parentElement.querySelector('.upvote').classList.remove('upvoted');
+
+            //select upvote button
+            e.target.classList.toggle('downvoted')
+
+            if(e.target.classList.contains('downvoted')){
+                //fetch upvote post
+                console.log('downvote')
+                const body = {
+                    vote_value: -1,
+                    user_id: 38, 
+                    post_id: 15
+                }
+                console.log('upvote')
+                fetch(host + '/votes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                }).then(res => res.json()).then(data => console.log(data));
+            } else{
+                //fetch delete upvote
+                console.log('remove vote');
+                const body = {
+                    user_id: 38,
+                    post_id: 15
+                }
+                fetch(host + '/votes', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                }).then(res => res.json()).then(data => console.log(data));
+            }            
+        })
+        
+    }
+</script>
+
+</html>
