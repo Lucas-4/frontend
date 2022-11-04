@@ -2,16 +2,20 @@ import host from '../host.js';
 
 window.addEventListener('load', async () => {
     const res = await fetch(host + '/subreddits', {
-        method: 'GET'
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
     })
     const subreddits = await res.json();
     console.log(subreddits);
     const subredditSelect = document.querySelector('#subreddit')
     for (let subreddit of subreddits) {
-        subredditSelect.innerHTML += `<option value="${subreddit.name}">${subreddit.name}</option>`
+        subredditSelect.innerHTML += `<option value="${subreddit.name}">r/${subreddit.name}</option>`
     }
 
-    document.querySelector('#create').addEventListener('click', async () => {
+    document.querySelector('#submit').addEventListener('click', async () => {
         const post = {};
         post.title = document.querySelector('#title').value;
         post.content = document.querySelector('#content').value;
