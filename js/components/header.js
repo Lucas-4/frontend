@@ -1,7 +1,7 @@
 import host from '../host.js';
 
 document.querySelector('header').innerHTML = `
-    <a href="home.html"></a>
+    <a href="home.html"><img id="logo" src="/images/reddit-logo.png"/></a>
     
         <input type="text" placeholder="Search">
     <div id="menu"></div>
